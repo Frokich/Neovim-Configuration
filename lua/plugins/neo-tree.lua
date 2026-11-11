@@ -5,15 +5,43 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
-            "nvim-tree/nvim-web-devicons",
         },
-        config = function ()
+        config = function()
             require("neo-tree").setup({
                 close_if_last_window = true,
+                renderers = {
+                    directory = {
+                        { "indent" },
+                        { "current_filter" },
+                        {
+                            "container",
+                            content = {
+                                { "name", zindex = 10 },
+                                { "clipboard", zindex = 10 },
+                                { "diagnostics", errors_only = true, zindex = 20, align = "right", hide_when_expanded = true },
+                                { "git_status", zindex = 20, align = "right", hide_when_expanded = true },
+                            },
+                        },
+                    },
+                    file = {
+                        { "indent" },
+                        {
+                            "container",
+                            content = {
+                                { "name", zindex = 10 },
+                                { "clipboard", zindex = 10 },
+                                { "bufnr", zindex = 10 },
+                                { "modified", zindex = 20, align = "right" },
+                                { "diagnostics", zindex = 20, align = "right" },
+                                { "git_status", zindex = 20, align = "right" },
+                            },
+                        },
+                    },
+                },
                 filesystem = {
                     follow_current_file = { enabled = true },
                     filtered_items = {
-                        hide_dothiles = false,
+                        hide_dotfiles = false,
                         hide_gitignored = false,
                     },
                 },
@@ -21,3 +49,4 @@ return {
         end,
     },
 }
+

@@ -7,9 +7,8 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      local lspconfig = require("lspconfig")
-      local mason_lspconfig = require("mason-lspconfig")
       local keymaps = require("config.keymaps")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(ev)
@@ -17,18 +16,17 @@ return {
         end,
       })
 
-      mason_lspconfig.setup({
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+      })
+
+      require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
         },
-        handlers = {
-          function(server_name)
-            lspconfig[server_name].setup({
-              capabilities = require("cmp_nvim_lsp").default_capabilities(),
-            })
-          end,
-        },
       })
+
     end,
   },
 }
+
